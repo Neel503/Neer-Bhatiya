@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neer Bhatiya R. - Professional Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            /* Deep Blue/Purple Gradient */
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #fff;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+        .dark-mode {
+            /* Darker mode for toggle */
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        /* Particle Background (Handled by JS library) */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        /* Header/Hero Section */
+        header {
+            text-align: center;
+            padding: 100px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 50px;
+        }
+        #name {
+            font-size: 4em;
+            margin: 0;
+            font-weight: 700;
+            border-right: 3px solid #00d4ff; 
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: #00d4ff; }
+        }
+        .subtitle {
+            font-size: 1.5em;
+            margin: 10px 0;
+            color: #00d4ff;
+        }
+        /* Main Content Sections */
+        .section {
+            margin: 50px 0;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .section:hover {
+            transform: translateY(-5px); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .section h2 {
+            color: #00d4ff;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+            margin-bottom: 20px;
+        }
+        .section h2 .icon {
+            margin-right: 10px;
+        }
+        /* Toggle & Download Buttons */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+        .download-btn {
+            display: block;
+            margin: 20px auto;
+            background: #00d4ff;
+            color: #000;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .download-btn:hover {
+            background: #0099cc;
+            transform: scale(1.05);
+        }
+        
+        /* --- TIMELINE STYLES (Line KEPT, Dots REMOVED) --- */
+        .timeline {
+            position: relative;
+            padding-left: 30px; 
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px; 
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #00d4ff; 
+        }
+        .timeline-item {
+            margin-bottom: 25px;
+            padding-left: 20px; 
+            position: relative;
+        }
+        .timeline-item::before {
+            content: none; /* DOTS REMOVED */
+        }
+        .timeline-item h3 {
+            margin-top: 0;
+            color: #00d4ff;
+        }
+        .timeline-item p {
+            margin: 5px 0;
+        }
+        /* --- END MODIFIED TIMELINE STYLES --- */
+
+
+        /* Skill Bars (Advanced) */
+        .skill-bar-container {
+            margin-bottom: 20px;
+        }
+        .skill-bar-container p {
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        .skill-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 20px;
+            margin: 0;
+        }
+        .skill-fill {
+            height: 100%;
+            background: #00d4ff;
+            border-radius: 10px;
+            width: 0;
+            animation: fill 2s ease-in-out forwards;
+            position: relative;
+        }
+        .skill-fill::after {
+            content: attr(data-level);
+            position: absolute;
+            right: 10px;
+            top: 0;
+            font-size: 0.9em;
+            font-weight: 700;
+            color: #000;
+            line-height: 20px;
+        }
+        @keyframes fill {
+            to { width: var(--fill); }
+        }
+        /* Projects Grid */
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px;
+        }
+        .project {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            transition: background 0.3s;
+        }
+        .project h3 {
+            color: #00d4ff;
+        }
+        .project a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 700;
+            display: block;
+            margin-top: 10px;
+        }
+        .project a:hover {
+            text-decoration: underline;
+        }
+        /* Contact Form & Links */
+        .contact-details a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+        .social-links {
+            margin-top: 20px;
+        }
+        .social-links a {
+            color: #fff;
+            font-size: 1.5em;
+            margin-right: 20px;
+            transition: color 0.3s;
+        }
+        .social-links a:hover {
+            color: #00d4ff;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            margin-bottom: 15px; 
+        }
+        button[type="submit"] {
+            background: #00d4ff;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        /* Media Queries for Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px; 
+            }
+            header {
+                padding: 60px 10px;
+            }
+            #name {
+                font-size: 2.2em; 
+            }
+            .subtitle {
+                font-size: 1em;
+            }
+            .section {
+                padding: 20px;
+            }
+            /* Ensure line position is good on mobile */
+            .timeline {
+                padding-left: 20px; 
+            }
+            .timeline::before {
+                left: 10px; 
+            }
+            .timeline-item {
+                 padding-left: 15px; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <button class="toggle-btn" onclick="toggleMode()"><i class="fas fa-moon"></i></button>
+    <div class="container">
+        
+        <header>
+            <h1 id="name"></h1>
+            <p class="subtitle">Computer Engineering Student | Godhra, Gujarat</p>
+            <button class="download-btn" onclick="downloadResume()">Download Resume</button>
+        </header>
+        
+        <section class="section">
+            <h2><i class="fas fa-user icon"></i>Career Objective</h2>
+            [cite_start]<p>To start my career in a progressive organization where I can apply my knowledge, enhance my skills and contribute to the team with dedication and hard work. [cite: 5]</p>
+        </section>
+        
+        <section class="section">
+            <h2><i class="fas fa-tools icon"></i>Technical Skills</h2>
+            <div class="skill-bar-container">
+                <p>Python</p>
+                <div class="skill-bar"><div class="skill-fill" style="--fill: 90%;" data-level="90%"></div></div>
+                
+                <p>C Programming</p>
+                <div class="skill-bar"><div class="skill-fill" style="--fill: 85%;" data-level="85%"></div></div>
+                
+                <p>HTML & CSS</p>
+                <div class="skill-bar"><div class="skill-fill" style="--fill: 80%;" data-level="80%"></div></div>
+                
+                <p>C++</p>
+                <div class="skill-bar"><div class="skill-fill" style="--fill: 75%;" data-level="75%"></div></div>
+                
+                <p>SQL</p>
+                <div class="skill-bar"><div class="skill-fill" style="--fill: 70%;" data-level="70%"></div></div>
+
+            </div>
+            
+            <h3 style="color:#fff; border-bottom: 1px dashed #00d4ff; padding-bottom: 5px;">Other Skills</h3>
+            [cite_start]<p>MS Office [cite: 5][cite_start], Communication Skills [cite: 5][cite_start], Problem Solving, Hindi, English, Gujarati [cite: 5]</p>
+        </section>
+        
+        <section class="section">
+            <h2><i class="fas fa-certificate icon"></i>Certifications</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Cyber Job Simulation</h3>
+                    [cite_start]<p>Deloitte (Forage) [cite: 5]</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Python 101 for Data Science</h3>
+                    [cite_start]<p>IBM Cognitive Class [cite: 5]</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Free Python Course</h3>
+                    [cite_start]<p>GeeksforGeeks [cite: 5]</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Operating Systems Basics</h3>
+                    [cite_start]<p>Parul University [cite: 5]</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Computer Hardware Basics</h3>
+                    [cite_start]<p>Parul University [cite: 5]</p>
+                </div>
+            </div>
+            </section>
+        
+        <section class="section">
+            <h2><i class="fas fa-project-diagram icon"></i>Projects</h2>
+            <div class="projects">
+                <div class="project">
+                    <h3>Portfolio Website</h3>
+                    [cite_start]<p>Built using HTML and CSS to showcase personal profile and skills. [cite: 6]</p>
+                    <a href="#">View Demo/Link <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="project">
+                    <h3>Add More Project 1</h3>
+                    <p>यहाँ अपने किसी और प्रोजेक्ट का विवरण और उसकी टेक्नोलॉजी लिखें।</p>
+                    <a href="#">View Link <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2><i class="fas fa-graduation-cap icon"></i>Education</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Diploma in Computer Engineering</h3>
+                    <p>Parul University, Gujarat</p>
+                    <p>Semester: 3 | [cite_start]CGPA: 7.31 & 7.36 [cite: 5]</p>
+                </div>
+            </div>
+            </section>
+        
+        <section class="section">
+            <h2><i class="fas fa-envelope icon"></i>Contact Me</h2>
+            <div class="contact-details">
+                [cite_start]<p><strong><i class="fas fa-location-dot"></i> Location:</strong> Godhra, Gujarat [cite: 4]</p>
+                [cite_start]<p><strong><i class="fas fa-phone"></i> Phone:</strong> 798423346 [cite: 4]</p>
+                [cite_start]<p><strong><i class="fas fa-envelope"></i> Email:</strong> <a href="mailto:bhatiyaneel36@gmail.com">bhatiyaneel36@gmail.com [cite: 4]</a></p>
+            </div>
+
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/bhatiya-neer-r-998b86339?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="mailto:bhatiyaneel36@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+
+            <h3 style="color:#fff; border-bottom: 1px dashed #00d4ff; padding-bottom: 5px; margin-top: 30px;">Send a Quick Message</h3>
+            <form onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <input type="text" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Your Message" rows="4" required></textarea>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particle background initialization
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60 }, 
+                color: { value: '#00d4ff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.6 },
+                size: { value: 3 },
+                move: { speed: 1.5 } 
+            },
+            interactivity: { events: { onhover: { enable: true, mode: 'repulse' } } }
+        });
+
+        // Typing effect
+        const nameElement = document.getElementById('name');
+        const nameText = 'NEER BHATIYA R.'; 
+        let i = 0;
+        function typeWriter() {
+            if (i < nameText.length) {
+                nameElement.innerHTML += nameText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 120); 
+            }
+        }
+        document.addEventListener('DOMContentLoaded', typeWriter);
+
+        // Dark mode toggle
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // DOWNLOAD RESUME FUNCTION:
+        function downloadResume() {
+            // **महत्वपूर्ण: यहाँ अपनी PDF फ़ाइल का सीधा डाउनलोड लिंक बदलें।**
+            // उदाहरण के लिए, यदि आपकी फ़ाइल Google Drive पर है, तो उसका शेयर लिंक डालें।
+            // या यदि आप फ़ाइल को सीधे अपने वेबसर्वर पर डालते हैं, तो उसका पाथ डालें।
+            const resumeURL = 'path/to/your-resume.pdf'; // <<--- यहाँ बदलें
+            window.open(resumeURL, '_blank');
+            alert('Your Resume download has started!');
+        }
+
+        // Form submit placeholder
+        function submitForm(event) {
+            event.preventDefault();
+            alert('Message sent! (Note: You need a backend service like Formspree or a server-side script to receive real emails.)');
+        }
+    </script>
+</body>
+</html>
